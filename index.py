@@ -1,7 +1,8 @@
 import requests
 from flask import Flask, jsonify
 
-app = Flask(name)
+app = Flask(__name__)
+
 
 taxadolar = 5.40 
 taxaeuro = 6.30
@@ -14,20 +15,20 @@ def convertepradolareuro(valor):
         return jsonify({"error": "Valor inválido. Forneça um número válido em real."}), 400
 
     try:
-        valordolar = valor_real / taxa_dolar
-        valor_euro = valor_real / taxa_euro
+        valordolar = valorreal / taxadolar
+        valoreuro = valorreal / taxaeuro
 
         resultado = {
             "conversao": {
-                "real": round(valor_real, 2),
-                "dolar": round(valor_dolar, 2),
-                "euro": round(valor_euro, 2)
+                "real": round(valorreal, 2),
+                "dolar": round(valordolar, 2),
+                "euro": round(valoreuro, 2)
             }
         }
 
         return jsonify(resultado)
     except Exception as e:
-        return jsonify({"error": "Erro ao obter as taxas de câmbio"}), 500
+        return jsonify({"error": f"Erro ao obter as taxas de câmbio: {str(e)}"}), 500
 
-if __name == '__main':
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
